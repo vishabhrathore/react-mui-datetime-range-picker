@@ -1,6 +1,6 @@
-import React, { memo } from 'react';
-import { formatDateString } from './const';
-import { cx } from './utils';
+import React, { memo } from "react";
+import { formatDateString } from "./const";
+import { cx } from "./utils";
 
 const HOURS = [...Array(24).keys()];
 const MINUTES = [...Array(60).keys()];
@@ -38,23 +38,39 @@ const Index: React.FC<IndexProps> = memo(
       return (
         <div className="react-minimal-datetime-range__time-select-wrapper react-minimal-datetime-range__time-select-wrapper--single">
           <div>
-            <div className="react-minimal-datetime-range__date">{startDatePickedArray.join('-')}</div>
+            <div className="react-minimal-datetime-range__date">
+              {startDatePickedArray.join("-")}
+            </div>
           </div>
           <div className="react-minimal-datetime-range__time-select-options-wrapper">
-            {HOURS.map(i => {
+            {HOURS.map((i) => {
               const item = formatDateString(i);
               return (
-                <div key={i} className={cx('react-minimal-datetime-range__time-select-option', item === startTimePickedArray[0] && 'active')} onClick={() => handleChooseStartTimeHour(item)}>
+                <div
+                  key={i}
+                  className={cx(
+                    "react-minimal-datetime-range__time-select-option",
+                    item === startTimePickedArray[0] && "active",
+                  )}
+                  onClick={() => handleChooseStartTimeHour(item)}
+                >
                   {item}
                 </div>
               );
             })}
           </div>
           <div className="react-minimal-datetime-range__time-select-options-wrapper">
-            {MINUTES.map(i => {
+            {MINUTES.map((i) => {
               const item = formatDateString(i);
               return (
-                <div key={i} className={cx('react-minimal-datetime-range__time-select-option', item === startTimePickedArray[1] && 'active')} onClick={() => handleChooseStartTimeMinute(item)}>
+                <div
+                  key={i}
+                  className={cx(
+                    "react-minimal-datetime-range__time-select-option",
+                    item === startTimePickedArray[1] && "active",
+                  )}
+                  onClick={() => handleChooseStartTimeMinute(item)}
+                >
                   {item}
                 </div>
               );
@@ -66,44 +82,78 @@ const Index: React.FC<IndexProps> = memo(
     return (
       <div className="react-minimal-datetime-range__time-select-wrapper">
         <div>
-          <div className="react-minimal-datetime-range__date">{showOnlyTime ? LOCALE_DATA['start'] : startDatePickedArray.join('-')}</div>
-          <div className="react-minimal-datetime-range__date">{showOnlyTime ? LOCALE_DATA['end'] : endDatePickedArray.join('-')}</div>
+          <div className="react-minimal-datetime-range__date">
+            {showOnlyTime
+              ? LOCALE_DATA["start"]
+              : startDatePickedArray.join("-")}
+          </div>
+          <div className="react-minimal-datetime-range__date">
+            {showOnlyTime ? LOCALE_DATA["end"] : endDatePickedArray.join("-")}
+          </div>
         </div>
         <div className="react-minimal-datetime-range__time-select-options-wrapper">
-          {HOURS.map(i => {
+          {HOURS.map((i) => {
             const item = formatDateString(i);
             return (
-              <div key={i} className={cx('react-minimal-datetime-range__time-select-option', item === startTimePickedArray[0] && 'active')} onClick={() => handleChooseStartTimeHour(item)}>
+              <div
+                key={i}
+                className={cx(
+                  "react-minimal-datetime-range__time-select-option",
+                  item === startTimePickedArray[0] && "active",
+                )}
+                onClick={() => handleChooseStartTimeHour(item)}
+              >
                 {item}
               </div>
             );
           })}
         </div>
         <div className="react-minimal-datetime-range__time-select-options-wrapper">
-          {MINUTES.map(i => {
+          {MINUTES.map((i) => {
             const item = formatDateString(i);
             return (
-              <div key={i} className={cx('react-minimal-datetime-range__time-select-option', item === startTimePickedArray[1] && 'active')} onClick={() => handleChooseStartTimeMinute(item)}>
+              <div
+                key={i}
+                className={cx(
+                  "react-minimal-datetime-range__time-select-option",
+                  item === startTimePickedArray[1] && "active",
+                )}
+                onClick={() => handleChooseStartTimeMinute(item)}
+              >
                 {item}
               </div>
             );
           })}
         </div>
         <div className="react-minimal-datetime-range__time-select-options-wrapper">
-          {HOURS.map(i => {
+          {HOURS.map((i) => {
             const item = formatDateString(i);
             return (
-              <div key={i} className={cx('react-minimal-datetime-range__time-select-option', item === endTimePickedArray[0] && 'active')} onClick={() => handleChooseEndTimeHour(item)}>
+              <div
+                key={i}
+                className={cx(
+                  "react-minimal-datetime-range__time-select-option",
+                  item === endTimePickedArray[0] && "active",
+                )}
+                onClick={() => handleChooseEndTimeHour(item)}
+              >
                 {item}
               </div>
             );
           })}
         </div>
         <div className="react-minimal-datetime-range__time-select-options-wrapper">
-          {MINUTES.map(i => {
+          {MINUTES.map((i) => {
             const item = formatDateString(i);
             return (
-              <div key={i} className={cx('react-minimal-datetime-range__time-select-option', item === endTimePickedArray[1] && 'active')} onClick={() => handleChooseEndTimeMinute(item)}>
+              <div
+                key={i}
+                className={cx(
+                  "react-minimal-datetime-range__time-select-option",
+                  item === endTimePickedArray[1] && "active",
+                )}
+                onClick={() => handleChooseEndTimeMinute(item)}
+              >
                 {item}
               </div>
             );

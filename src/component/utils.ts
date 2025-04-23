@@ -4,14 +4,14 @@ export const cx = (...params: Array<any>) => {
     const arg = params[i];
     if (!arg) continue;
     const argType = typeof arg;
-    if (argType === 'string' || argType === 'number') {
+    if (argType === "string" || argType === "number") {
       classes.push(arg);
     } else if (Array.isArray(arg) && arg.length) {
       const inner: string = cx.apply(null, arg);
       if (inner) {
         classes.push(inner);
       }
-    } else if (argType === 'object') {
+    } else if (argType === "object") {
       for (const key in arg) {
         if ({}.hasOwnProperty.call(arg, key) && arg[key]) {
           classes.push(key);
@@ -19,7 +19,7 @@ export const cx = (...params: Array<any>) => {
       }
     }
   }
-  return classes.join(' ');
+  return classes.join(" ");
 };
 export const isValidDate = (str: string) => {
   try {
@@ -36,7 +36,7 @@ export const isValidDates = (arr: Array<string>) => {
   let isValid = false;
   if (arr.length === 2) {
     isValid = true;
-    arr.forEach(v => {
+    arr.forEach((v) => {
       if (!isValidDate(v)) {
         isValid = false;
       }

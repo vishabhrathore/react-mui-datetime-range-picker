@@ -13,7 +13,14 @@ import RangeDate from "./RangeDate";
 import RangeTime from "./RangeTime";
 import "./react-minimal-datetime-range.css";
 import { DateTimePicker } from "@mui/x-date-pickers";
-import { Box, FormControl, FormLabel, Popover } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  IconButton,
+  Popover,
+} from "@mui/material";
 import CalenderIcon from "./CalenderIcon";
 import CloseIcon from "./icons/CloseIcon";
 import dayjs from "dayjs";
@@ -106,7 +113,7 @@ export const CalendarPicker: React.FC<CalendarPickerProps> = memo(
         }
         handleOnClose();
       },
-      [allowPageClickToClose]
+      [allowPageClickToClose],
     );
     return (
       <div style={style} ref={$elWrapper}>
@@ -132,7 +139,7 @@ export const CalendarPicker: React.FC<CalendarPickerProps> = memo(
         )}
       </div>
     );
-  }
+  },
 );
 interface CalendarPickerComponentProps {
   show?: boolean;
@@ -175,28 +182,28 @@ const CalendarPickerComponent: React.FC<CalendarPickerComponentProps> = memo(
     const [internalShow, setInternalShow] = useState(false);
     const [type, setType] = useState(TYPES[0]);
     const [startDatePickedArray, setStartDatePickedArray] = useState(
-      defaultDate ? defaultDate.split("-") : []
+      defaultDate ? defaultDate.split("-") : [],
     );
     const [startTimePickedArray, setStartTimePickedArray] = useState([
       defaultTimes[0].split(":")[0],
       defaultTimes[0].split(":")[1] || "",
     ]);
     const [selected, setSelected] = useState(
-      isDefaultDatesValid ? true : false
+      isDefaultDatesValid ? true : false,
     );
     const handleChooseStartTimeHour = useCallback(
       (res) => {
         setStartTimePickedArray([res, startTimePickedArray[1]]);
         handleChooseHourPick(res);
       },
-      [startTimePickedArray]
+      [startTimePickedArray],
     );
     const handleChooseStartTimeMinute = useCallback(
       (res) => {
         setStartTimePickedArray([startTimePickedArray[0], res]);
         handleChooseMinutePick(res);
       },
-      [startTimePickedArray]
+      [startTimePickedArray],
     );
     const handleOnClose = useCallback(() => {
       setInternalShow(false);
@@ -218,11 +225,11 @@ const CalendarPickerComponent: React.FC<CalendarPickerComponentProps> = memo(
     }, [type]);
     const componentClass = useMemo(
       () => cx("react-minimal-datetime-range", internalShow && "visible"),
-      [internalShow]
+      [internalShow],
     );
     const LOCALE_DATA: IObjectKeysAny = useMemo(
       () => (LOCALE[locale] ? LOCALE[locale] : LOCALE["en-us"]),
-      [locale]
+      [locale],
     );
     return (
       <div className={componentClass}>
@@ -271,7 +278,7 @@ const CalendarPickerComponent: React.FC<CalendarPickerComponentProps> = memo(
             className={cx(
               "react-minimal-datetime-range__button",
               "react-minimal-datetime-range__button--type",
-              !selected && "disabled"
+              !selected && "disabled",
             )}
             onClick={selected ? handleOnChangeType : () => {}}
             style={{ padding: "0", marginTop: "10px" }}
@@ -281,7 +288,7 @@ const CalendarPickerComponent: React.FC<CalendarPickerComponentProps> = memo(
         )}
       </div>
     );
-  }
+  },
 );
 
 const TYPES = ["date", "time"];
@@ -315,7 +322,7 @@ export const RangePicker: React.FC<RangePickerProps> = memo(
   ({
     label = "",
     ampm = false,
-    format = "DD/MM/YYYY HH:mm",
+    format = "DD-MM-YYYY HH:mm",
     show = false,
     disabled = false,
     locale = DEFAULT_LACALE,
@@ -336,29 +343,31 @@ export const RangePicker: React.FC<RangePickerProps> = memo(
     onClose = () => {},
   }) => {
     // ['YYYY-MM-DD', 'YYYY-MM-DD'] // ['hh:mm', 'hh:mm']
+    const inputContainerRef = useRef(null);
+
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const isDefaultDatesValid = isValidDates(defaultDates);
     const isInitialDatesValid = isValidDates(initialDates);
     const [selected, setSelected] = useState(
-      isDefaultDatesValid ? true : false
+      isDefaultDatesValid ? true : false,
     );
     const [start, setStart] = useState(
       defaultDates[0]
         ? `${defaultDates[0]} ${defaultTimes[0] ? defaultTimes[0] : ""}`
-        : ""
+        : "",
     );
     const [end, setEnd] = useState(
       defaultDates[1]
         ? `${defaultDates[1]} ${defaultTimes[1] ? defaultTimes[1] : ""}`
-        : ""
+        : "",
     );
     const [type, setType] = useState(TYPES[0]);
-    const [internalShow, setInternalShow] = useState(true);
+    const [internalShow, setInternalShow] = useState(show);
     const [startDatePickedArray, setStartDatePickedArray] = useState(
-      defaultDates[0] ? defaultDates[0].split("-") : []
+      defaultDates[0] ? defaultDates[0].split("-") : [],
     );
     const [endDatePickedArray, setEndDatePickedArray] = useState(
-      defaultDates[1] ? defaultDates[1].split("-") : []
+      defaultDates[1] ? defaultDates[1].split("-") : [],
     );
     const [currentDateObjStart, setCurrentDateObjStart] = useState({});
     const [currentDateObjEnd, setCurrentDateObjEnd] = useState({});
@@ -377,38 +386,38 @@ export const RangePicker: React.FC<RangePickerProps> = memo(
         setDates([value, dates[1]]);
         setStartDatePickedArray(value === "" ? [] : [year, month, name]);
       },
-      [dates]
+      [dates],
     );
     const handleChooseEndDate = useCallback(
       ({ name, month, year, value }) => {
         setDates([dates[0], value]);
         setEndDatePickedArray(value === "" ? [] : [year, month, name]);
       },
-      [dates]
+      [dates],
     );
     const handleChooseStartTimeHour = useCallback(
       (res) => {
         setStartTimePickedArray([res, startTimePickedArray[1]]);
       },
-      [startTimePickedArray]
+      [startTimePickedArray],
     );
     const handleChooseStartTimeMinute = useCallback(
       (res) => {
         setStartTimePickedArray([startTimePickedArray[0], res]);
       },
-      [startTimePickedArray]
+      [startTimePickedArray],
     );
     const handleChooseEndTimeHour = useCallback(
       (res) => {
         setEndTimePickedArray([res, endTimePickedArray[1]]);
       },
-      [endTimePickedArray]
+      [endTimePickedArray],
     );
     const handleChooseEndTimeMinute = useCallback(
       (res) => {
         setEndTimePickedArray([endTimePickedArray[0], res]);
       },
-      [endTimePickedArray]
+      [endTimePickedArray],
     );
     const handleOnChangeType = useCallback(() => {
       if (type === TYPES[0]) {
@@ -449,6 +458,7 @@ export const RangePicker: React.FC<RangePickerProps> = memo(
         setEndTimePickedArray(et);
         setDates([starts.join("-"), ends.join("-")]);
         setInternalShow(false);
+        setAnchorEl(null);
         onConfirm && onConfirm([startStr, endStr]);
       },
       [
@@ -456,8 +466,9 @@ export const RangePicker: React.FC<RangePickerProps> = memo(
         endDatePickedArray,
         startTimePickedArray,
         endTimePickedArray,
-      ]
+      ],
     );
+
     const handleOnClear = useCallback(
       (e) => {
         if (disabled) {
@@ -469,7 +480,7 @@ export const RangePicker: React.FC<RangePickerProps> = memo(
             initialDates[0].split("-"),
             initialDates[1].split("-"),
             initialTimes[0].split(":"),
-            initialTimes[1].split(":")
+            initialTimes[1].split(":"),
           );
           return;
         }
@@ -485,7 +496,7 @@ export const RangePicker: React.FC<RangePickerProps> = memo(
         setEndTimePickedArray(["00", "00"]);
         onClear && onClear();
       },
-      [disabled, initialDates, initialTimes]
+      [disabled, initialDates, initialTimes],
     );
     useEffect(() => {
       setType(TYPES[0]);
@@ -499,51 +510,28 @@ export const RangePicker: React.FC<RangePickerProps> = memo(
       setStart(
         defaultDates[0]
           ? `${defaultDates[0]} ${defaultTimes[0] ? defaultTimes[0] : ""}`
-          : ""
+          : "",
       );
       setEnd(
         defaultDates[1]
           ? `${defaultDates[1]} ${defaultTimes[1] ? defaultTimes[1] : ""}`
-          : ""
+          : "",
       );
     }, [defaultDates]);
-    const $elWrapper = useRef(null);
-    useEffect(() => {
-      if (typeof window !== "undefined") {
-        window.addEventListener("mousedown", pageClick);
-        window.addEventListener("touchstart", pageClick);
-        return () => {
-          window.removeEventListener("mousedown", pageClick);
-          window.removeEventListener("touchstart", pageClick);
-        };
-      }
-    }, []);
-    const pageClick = useCallback(
-      (e) => {
-        if (!allowPageClickToClose) {
-          return;
-        }
-        if ($elWrapper.current.contains(e.target)) {
-          return;
-        }
-        setInternalShow(false);
-      },
-      [allowPageClickToClose]
-    );
     const isInitial = useMemo(
       () =>
         start === `${initialDates[0]} ${initialTimes[0]}` &&
         end === `${initialDates[1]} ${initialTimes[1]}`,
-      [initialDates, initialTimes, start, end]
+      [initialDates, initialTimes, start, end],
     );
     const isEmpty = useMemo(() => !start && !end, [start, end]);
     const valueStart = useMemo(
       () => (showOnlyTime ? start.split(" ")[1] : start),
-      [showOnlyTime, start]
+      [showOnlyTime, start],
     );
     const valueEnd = useMemo(
       () => (showOnlyTime ? end.split(" ")[1] : end),
-      [showOnlyTime, end]
+      [showOnlyTime, end],
     );
     const handleOnConfirmClick = useCallback(() => {
       handleOnConfirm();
@@ -555,7 +543,10 @@ export const RangePicker: React.FC<RangePickerProps> = memo(
     ]);
     // onClick={() => !disabled && setInternalShow(!internalShow)}
     const handleOpen = (e: React.MouseEvent<HTMLElement>) => {
-      if (!disabled) setAnchorEl(e.currentTarget);
+      if (!disabled) {
+        setInternalShow(true);
+        setAnchorEl(inputContainerRef.current);
+      }
     };
 
     const open = Boolean(anchorEl);
@@ -566,7 +557,6 @@ export const RangePicker: React.FC<RangePickerProps> = memo(
       <FormControl fullWidth disabled={disabled}>
         {label && <FormLabel>{"jfbgkjb"}</FormLabel>}
         <Box
-          onClick={handleOpen}
           display="flex"
           alignItems="center"
           gap={1}
@@ -575,104 +565,170 @@ export const RangePicker: React.FC<RangePickerProps> = memo(
             cursor: disabled ? "not-allowed" : "pointer",
           }}
         >
-          <DateTimePicker
-            disabled={disabled}
-            ampm={ampm}
-            value={dayjs(valueStart)}
-            format={format}
-            label=""
-            slots={{
-              openPickerIcon: () => null, // Remove calendar icon
-            }}
-            slotProps={{
-              textField: {
-                placeholder: "", // No label or placeholder
-                variant: "standard",
-                InputLabelProps: { shrink: false }, // No label animation
-                InputProps: {
-                  disableUnderline: true, // No underline
+          <Box
+            ref={inputContainerRef}
+            display="flex"
+            alignItems="center"
+            gap={1}
+            sx={(theme) => ({
+              border: "1px solid",
+              borderColor: open
+                ? theme.palette.primary.main
+                : theme.palette.grey[400],
+              borderRadius: 1,
+              padding: "3px 14px",
+              cursor: disabled ? "not-allowed" : "text",
+              backgroundColor: disabled
+                ? theme.palette.action.disabledBackground
+                : "inherit",
+              transition: "border-color 0.2s",
+              "&:hover": {
+                borderColor: !disabled && theme.palette.text.primary,
+              },
+            })}
+          >
+            <DateTimePicker
+              disabled={disabled}
+              ampm={ampm}
+              value={dayjs(valueStart)}
+              onChange={(newValue) => {
+                const date = dayjs(newValue);
+                if (date.isValid()) {
+                  const formatted = date.format("YYYY-MM-DD HH:mm");
+                  console.log("Formatted:", formatted);
+                  setStart(formatted);
+                }
+              }}
+              format={format}
+              label=""
+              slots={{
+                openPickerIcon: () => null, // Remove calendar icon
+              }}
+              slotProps={{
+                textField: {
+                  placeholder: "Enter date/time", // Or leave it empty
+                  variant: "standard",
+                  InputLabelProps: { shrink: false }, // Prevent label animation
+                  InputProps: {
+                    disableUnderline: true,
+                    sx: {
+                      width: "auto",
+                      p: 0,
+                      m: 0,
+                      border: 0,
+                      fontSize: "inherit",
+                      height: 30, // consistent height
+                      lineHeight: "30px", // match height
+                      "& .MuiInputAdornment-root": {
+                        display: "none",
+                      },
+                      "& .MuiPickersSectionList-root": {
+                        width: "auto !important",
+                        opacity: 1,
+                      },
+                    },
+                    inputProps: {
+                      style: {
+                        padding: 0,
+                        margin: 0,
+                        height: "100%",
+                        lineHeight: "30px",
+                        width: "auto",
+                      },
+                    },
+                  },
                   sx: {
                     p: 0,
                     m: 0,
-                    border: 0,
-                    fontSize: "inherit",
-                    "& .MuiInputAdornment-root": {
-                      display: "none", // Hide the adornment container
-                    },
                   },
                 },
-                sx: {
+              }}
+              sx={{
+                p: 0,
+                m: 0,
+                "& .MuiInputBase-root": {
                   p: 0,
                   m: 0,
+                  height: 30,
                 },
-              },
-            }}
-            sx={{
-              p: 0,
-              m: 0,
-              "& .MuiInputBase-root": {
-                p: 0,
-                m: 0,
-              },
-              "& .MuiInputBase-input": {
-                p: 0,
-                m: 0,
-              },
-            }}
-          />
+                "& .MuiInputBase-input": {
+                  p: 0,
+                  m: 0,
+                  height: "100%",
+                  lineHeight: "30px",
+                },
+              }}
+            />
 
-          <span>~</span>
-          <DateTimePicker
-            disabled={disabled}
-            value={dayjs(valueEnd)}
-            ampm={ampm}
-            format={format}
-            label=""
-            slots={{
-              openPickerIcon: () => null, // Remove calendar icon
-            }}
-            slotProps={{
-              textField: {
-                placeholder: "", // No label or placeholder
-                variant: "standard",
-                InputLabelProps: { shrink: false }, // No label animation
-                InputProps: {
-                  disableUnderline: true, // No underline
+            <span>~</span>
+            <DateTimePicker
+              disabled={disabled}
+              value={dayjs(valueEnd)}
+              onChange={(newValue) => {
+                const date = dayjs(newValue);
+                if (date.isValid()) {
+                  const formatted = date.format("YYYY-MM-DD HH:mm");
+                  console.log("Formatted:", formatted);
+                  setEnd(formatted);
+                }
+              }}
+              ampm={ampm}
+              format={format}
+              label=""
+              slots={{
+                openPickerIcon: () => null, // Remove calendar icon
+              }}
+              slotProps={{
+                textField: {
+                  placeholder: "", // No label or placeholder
+                  variant: "standard",
+                  InputLabelProps: { shrink: false }, // No label animation
+                  InputProps: {
+                    disableUnderline: true, // No underline
+                    sx: {
+                      p: 0,
+                      m: 0,
+                      border: 0,
+                      fontSize: "inherit",
+                      "& .MuiInputAdornment-root": {
+                        display: "none", // Hide the adornment container
+                      },
+                      "& .MuiPickersSectionList-root": {
+                        width: "auto !important",
+                        opacity: 1,
+                      },
+                    },
+                  },
                   sx: {
                     p: 0,
                     m: 0,
-                    border: 0,
-                    fontSize: "inherit",
-                    "& .MuiInputAdornment-root": {
-                      display: "none", // Hide the adornment container
-                    },
                   },
                 },
-                sx: {
+              }}
+              sx={{
+                p: 0,
+                m: 0,
+                "& .MuiInputBase-root": {
                   p: 0,
                   m: 0,
                 },
-              },
-            }}
-            sx={{
-              p: 0,
-              m: 0,
-              "& .MuiInputBase-root": {
-                p: 0,
-                m: 0,
-              },
-              "& .MuiInputBase-input": {
-                p: 0,
-                m: 0,
-              },
-            }}
-          />
+                "& .MuiInputBase-input": {
+                  p: 0,
+                  m: 0,
+                },
+              }}
+            />
 
-          {!isInitial && !isEmpty ? (
-            <CloseIcon onClick={handleOnClear} />
-          ) : (
-            <CalenderIcon />
-          )}
+            {!isInitial && !isEmpty ? (
+              <IconButton onClick={handleOnClear} sx={{ p: 0 }}>
+                <CloseIcon />
+              </IconButton>
+            ) : (
+              <IconButton onClick={handleOpen} sx={{ p: 0 }}>
+                <CalenderIcon />
+              </IconButton>
+            )}
+          </Box>
         </Box>
         <Popover
           id={id}
@@ -719,7 +775,7 @@ export const RangePicker: React.FC<RangePickerProps> = memo(
         </Popover>
       </FormControl>
     );
-  }
+  },
 );
 
 interface RangePickerComponentProps {
@@ -792,11 +848,11 @@ const RangePickerComponent: React.FC<RangePickerComponentProps> = memo(
     }, [show]);
     const componentClass = useMemo(
       () => cx("react-minimal-datetime-range", internalShow && "visible"),
-      [internalShow]
+      [internalShow],
     );
     const LOCALE_DATA: IObjectKeysAny = useMemo(
       () => (LOCALE[locale] ? LOCALE[locale] : LOCALE["en-us"]),
-      [locale]
+      [locale],
     );
     return (
       <div className={componentClass}>
@@ -859,33 +915,32 @@ const RangePickerComponent: React.FC<RangePickerComponentProps> = memo(
             </div>
           )}
         </div>
-        <div className="react-minimal-datetime-range__button-wrapper">
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            gap: 1,
+          }}
+        >
           {!showOnlyTime && (
-            <div
-              className={cx(
-                "react-minimal-datetime-range__button",
-                "react-minimal-datetime-range__button--type",
-                !selected && "disabled"
-              )}
+            <Button
+              disabled={!selected}
               onClick={selected ? handleOnChangeType : () => {}}
             >
               {type === TYPES[0]
                 ? LOCALE_DATA[TYPES[1]]
                 : LOCALE_DATA[TYPES[0]]}
-            </div>
+            </Button>
           )}
-          <div
-            className={cx(
-              "react-minimal-datetime-range__button",
-              "react-minimal-datetime-range__button--confirm",
-              !selected && "disabled"
-            )}
+          <Button
+            disabled={!selected}
             onClick={selected ? handleOnConfirmClick : () => {}}
           >
             {LOCALE_DATA["confirm"]}
-          </div>
-        </div>
+          </Button>
+        </Box>
       </div>
     );
-  }
+  },
 );

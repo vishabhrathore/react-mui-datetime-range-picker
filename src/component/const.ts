@@ -1,5 +1,5 @@
-export const PREV_TRANSITION = 'prev';
-export const NEXT_TRANSITION = 'next';
+export const PREV_TRANSITION = "prev";
+export const NEXT_TRANSITION = "next";
 
 export const SELECTOR_YEAR_SET_NUMBER = 5;
 
@@ -36,7 +36,11 @@ export const getDaysArray = (year: number, month: number) => {
   let startOffset = date.getDay();
   if (startOffset != 0) {
     prevMonthDate = getDaysListByMonth(prevYear, prevMonth);
-    for (let i = prevMonthDate.length - startOffset; i <= prevMonthDate.length - 1; i++) {
+    for (
+      let i = prevMonthDate.length - startOffset;
+      i <= prevMonthDate.length - 1;
+      i++
+    ) {
       res.push(prevMonthDate[i]);
     }
   }
@@ -74,7 +78,7 @@ export const getDaysListByMonth = (year: number, month: number) => {
 
 export const formatDateString = (val: number) => {
   if (val < 10) {
-    return String('0' + val);
+    return String("0" + val);
   }
   return String(val);
 };
@@ -121,47 +125,58 @@ export const TIME_SELECTION_SECOND_CHAR_POS_LIST = [1, 4, 7];
 export const TIME_SELECTION_SECOND_CHAR_POS_BACKSPACE_LIST = [2, 5, 8];
 export const TIME_JUMP_CHAR_POS_LIST = [1, 4, 7];
 export const TIME_CURSOR_POSITION_OBJECT = {
-  0: 'clockHandHour',
-  1: 'clockHandHour',
-  2: 'clockHandHour',
-  3: 'clockHandMinute',
-  4: 'clockHandMinute',
-  5: 'clockHandMinute',
-  6: 'clockHandSecond',
-  7: 'clockHandSecond',
-  8: 'clockHandSecond',
-  9: 'meridiem',
-  10: 'meridiem',
-  11: 'meridiem',
+  0: "clockHandHour",
+  1: "clockHandHour",
+  2: "clockHandHour",
+  3: "clockHandMinute",
+  4: "clockHandMinute",
+  5: "clockHandMinute",
+  6: "clockHandSecond",
+  7: "clockHandSecond",
+  8: "clockHandSecond",
+  9: "meridiem",
+  10: "meridiem",
+  11: "meridiem",
 };
-export const TIME_TYPE = ['clockHandHour', 'clockHandMinute', 'clockHandSecond', 'meridiem'];
+export const TIME_TYPE = [
+  "clockHandHour",
+  "clockHandMinute",
+  "clockHandSecond",
+  "meridiem",
+];
 
 export const KEY_CODE = {
-  '8': 'Backspace',
-  '46': 'Delete',
-  '38': 'ArrowUp',
-  '37': 'ArrowLeft',
-  '39': 'ArrowRight',
-  '40': 'ArrowDown',
-  '48': '0',
-  '49': '1',
-  '50': '2',
-  '51': '3',
-  '52': '4',
-  '53': '5',
-  '54': '6',
-  '55': '7',
-  '56': '8',
-  '57': '9',
+  "8": "Backspace",
+  "46": "Delete",
+  "38": "ArrowUp",
+  "37": "ArrowLeft",
+  "39": "ArrowRight",
+  "40": "ArrowDown",
+  "48": "0",
+  "49": "1",
+  "50": "2",
+  "51": "3",
+  "52": "4",
+  "53": "5",
+  "54": "6",
+  "55": "7",
+  "56": "8",
+  "57": "9",
 };
 // Number(currentDateObjStart.year) === Number(currentDateObjEnd.year) && Number(currentDateObjStart.month) + 1 === Number(currentDateObjEnd.month))
 // Number(currentDateObjEnd.year) === Number(currentDateObjStart.year) && Number(currentDateObjEnd.month) - 1 === Number(currentDateObjStart.month))
-export const isWith1Month = (year1: number, year2: number, month1: number, month2: number, type: string) => {
+export const isWith1Month = (
+  year1: number,
+  year2: number,
+  month1: number,
+  month2: number,
+  type: string,
+) => {
   year1 = year1;
   month1 = month1;
   year2 = year2;
   month2 = month2;
-  if (type === 'add') {
+  if (type === "add") {
     if (month1 === 12) {
       if (year1 + 1 === year2 && month2 === 1) {
         return true;
@@ -201,7 +216,10 @@ interface IObjectKeysAny {
   [key: string]: any;
 }
 
-export const getEndDateItemByDuration = (item: IObjectKeysAny, duration: number) => {
+export const getEndDateItemByDuration = (
+  item: IObjectKeysAny,
+  duration: number,
+) => {
   const { year, month, name } = item;
   const date = new Date(`${year}-${month}-${name}`);
   const endDate = new Date(date.getTime() + duration * 24 * 60 * 60 * 1000);

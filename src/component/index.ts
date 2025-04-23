@@ -1,1 +1,1 @@
-export * from './ReactMinimalRange';
+export * from "./ReactMinimalRange";

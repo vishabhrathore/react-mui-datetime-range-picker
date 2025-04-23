@@ -27,7 +27,7 @@ export default function MyDatePicker() {
   const [hour, setHour] = useState("01");
   const [minute, setMinute] = useState("01");
   const [month, setMonth] = useState(
-    String(now.getMonth() + 1).padStart(2, "0")
+    String(now.getMonth() + 1).padStart(2, "0"),
   );
   const [date, setDate] = useState(String(now.getDate()).padStart(2, "0"));
   const [year, setYear] = useState(String(now.getFullYear()));
