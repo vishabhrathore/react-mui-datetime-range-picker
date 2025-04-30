@@ -13,15 +13,15 @@ import RangeDate from "./RangeDate";
 import RangeTime from "./RangeTime";
 import "./react-minimal-datetime-range.css";
 import { DateTimePicker } from "@mui/x-date-pickers";
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  IconButton,
-  Popover,
-} from "@mui/material";
-import CalenderIcon from "./CalenderIcon";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import IconButton from "@mui/material/IconButton";
+import Popover from "@mui/material/Popover";
+import Typography from "@mui/material/Typography";
+
+import CalenderIcon from "./icons/CalenderIcon";
 import CloseIcon from "./icons/CloseIcon";
 import dayjs from "dayjs";
 const DEFAULT_LACALE = "en-us";
@@ -314,6 +314,7 @@ export interface RangePickerProps {
   duration?: number;
   style?: React.CSSProperties;
   onConfirm?: (res: Array<string>) => void;
+  onChange?: (res: Array<string>) => void;
   onClear?: () => void;
   onClose?: () => void;
   onChooseDate?: (res: object) => void;
@@ -339,6 +340,7 @@ export const RangePicker: React.FC<RangePickerProps> = memo(
     style = {},
     onChooseDate = () => {},
     onConfirm = () => {},
+    onChange = () => {},
     onClear = () => {},
     onClose = () => {},
   }) => {
@@ -549,13 +551,16 @@ export const RangePicker: React.FC<RangePickerProps> = memo(
       }
     };
 
+    useEffect(() => {
+      onChange([valueStart, valueEnd]);
+    }, [valueStart, valueEnd]);
+
     const open = Boolean(anchorEl);
     const id = open ? "range-picker-popover" : undefined;
 
     console.log(valueStart, valueEnd);
     return (
       <FormControl fullWidth disabled={disabled}>
-        {label && <FormLabel>{"jfbgkjb"}</FormLabel>}
         <Box
           display="flex"
           alignItems="center"
@@ -595,7 +600,6 @@ export const RangePicker: React.FC<RangePickerProps> = memo(
                 const date = dayjs(newValue);
                 if (date.isValid()) {
                   const formatted = date.format("YYYY-MM-DD HH:mm");
-                  console.log("Formatted:", formatted);
                   setStart(formatted);
                 }
               }}
@@ -617,8 +621,6 @@ export const RangePicker: React.FC<RangePickerProps> = memo(
                       m: 0,
                       border: 0,
                       fontSize: "inherit",
-                      height: 30, // consistent height
-                      lineHeight: "30px", // match height
                       "& .MuiInputAdornment-root": {
                         display: "none",
                       },
@@ -629,10 +631,72 @@ export const RangePicker: React.FC<RangePickerProps> = memo(
                     },
                     inputProps: {
                       style: {
-                        padding: 0,
-                        margin: 0,
-                        height: "100%",
-                        lineHeight: "30px",
+                        width: "auto",
+                        color: "red",
+                      },
+                    },
+                  },
+                  sx: {
+                    p: 0,
+                    m: 0,
+                  },
+                },
+              }}
+              sx={{
+                p: 0,
+                m: 0,
+                "& .MuiInputBase-root": {
+                  p: 0,
+                  m: 0,
+                },
+                "& .MuiInputBase-input": {
+                  p: 0,
+                  m: 0,
+                },
+              }}
+            />
+
+            <Typography> – </Typography>
+            <DateTimePicker
+              disabled={disabled}
+              value={dayjs(valueEnd)}
+              onChange={(newValue) => {
+                const date = dayjs(newValue);
+                if (date.isValid()) {
+                  const formatted = date.format("YYYY-MM-DD HH:mm");
+                  console.log("Formatted:", formatted);
+                  setEnd(formatted);
+                }
+              }}
+              ampm={ampm}
+              format={format}
+              label=""
+              slots={{
+                openPickerIcon: () => null, // Remove calendar icon
+              }}
+              slotProps={{
+                textField: {
+                  placeholder: "Enter date/time", // Or leave it empty
+                  variant: "standard",
+                  InputLabelProps: { shrink: false }, // Prevent label animation
+                  InputProps: {
+                    disableUnderline: true,
+                    sx: {
+                      width: "auto",
+                      p: 0,
+                      m: 0,
+                      border: 0,
+                      fontSize: "inherit",
+                      "& .MuiInputAdornment-root": {
+                        display: "none",
+                      },
+                      "& .MuiPickersSectionList-root": {
+                        width: "auto !important",
+                        opacity: 1,
+                      },
+                    },
+                    inputProps: {
+                      style: {
                         width: "auto",
                       },
                     },
@@ -656,65 +720,6 @@ export const RangePicker: React.FC<RangePickerProps> = memo(
                   m: 0,
                   height: "100%",
                   lineHeight: "30px",
-                },
-              }}
-            />
-
-            <span>~</span>
-            <DateTimePicker
-              disabled={disabled}
-              value={dayjs(valueEnd)}
-              onChange={(newValue) => {
-                const date = dayjs(newValue);
-                if (date.isValid()) {
-                  const formatted = date.format("YYYY-MM-DD HH:mm");
-                  console.log("Formatted:", formatted);
-                  setEnd(formatted);
-                }
-              }}
-              ampm={ampm}
-              format={format}
-              label=""
-              slots={{
-                openPickerIcon: () => null, // Remove calendar icon
-              }}
-              slotProps={{
-                textField: {
-                  placeholder: "", // No label or placeholder
-                  variant: "standard",
-                  InputLabelProps: { shrink: false }, // No label animation
-                  InputProps: {
-                    disableUnderline: true, // No underline
-                    sx: {
-                      p: 0,
-                      m: 0,
-                      border: 0,
-                      fontSize: "inherit",
-                      "& .MuiInputAdornment-root": {
-                        display: "none", // Hide the adornment container
-                      },
-                      "& .MuiPickersSectionList-root": {
-                        width: "auto !important",
-                        opacity: 1,
-                      },
-                    },
-                  },
-                  sx: {
-                    p: 0,
-                    m: 0,
-                  },
-                },
-              }}
-              sx={{
-                p: 0,
-                m: 0,
-                "& .MuiInputBase-root": {
-                  p: 0,
-                  m: 0,
-                },
-                "& .MuiInputBase-input": {
-                  p: 0,
-                  m: 0,
                 },
               }}
             />
@@ -877,27 +882,27 @@ const RangePickerComponent: React.FC<RangePickerComponentProps> = memo(
             duration={duration}
             onChooseDate={onChooseDate}
           />
-          <div className="react-minimal-datetime-date-piker__divider" />
-          <RangeDate
-            selected={selected}
-            setSelected={setSelected}
-            handleChooseStartDate={handleChooseStartDate}
-            handleChooseEndDate={handleChooseEndDate}
-            rangeDirection="end"
-            defaultDateStart={dates[0]}
-            defaultDateEnd={dates[1]}
-            locale={locale}
-            startDatePickedArray={startDatePickedArray}
-            endDatePickedArray={endDatePickedArray}
-            currentDateObjStart={currentDateObjStart}
-            setCurrentDateObjStart={setCurrentDateObjStart}
-            currentDateObjEnd={currentDateObjEnd}
-            setCurrentDateObjEnd={setCurrentDateObjEnd}
-            markedDates={markedDates}
-            supportDateRange={supportDateRange}
-            duration={duration}
-            onChooseDate={onChooseDate}
-          />
+          {/* <div className="react-minimal-datetime-date-piker__divider" /> */}
+          {/* <RangeDate
+              selected={selected}
+              setSelected={setSelected}
+              handleChooseStartDate={handleChooseStartDate}
+              handleChooseEndDate={handleChooseEndDate}
+              rangeDirection="end"
+              defaultDateStart={dates[0]}
+              defaultDateEnd={dates[1]}
+              locale={locale}
+              startDatePickedArray={startDatePickedArray}
+              endDatePickedArray={endDatePickedArray}
+              currentDateObjStart={currentDateObjStart}
+              setCurrentDateObjStart={setCurrentDateObjStart}
+              currentDateObjEnd={currentDateObjEnd}
+              setCurrentDateObjEnd={setCurrentDateObjEnd}
+              markedDates={markedDates}
+              supportDateRange={supportDateRange}
+              duration={duration}
+              onChooseDate={onChooseDate}
+            /> */}
           {(showOnlyTime || type === TYPES[1]) && (
             <div className="react-minimal-datetime-range__time-piker">
               <RangeTime

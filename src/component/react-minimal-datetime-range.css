@@ -134,7 +134,7 @@
 
 .react-minimal-datetime-range-dropdown-calendar__month {
   background-color: #fff;
-  *zoom: 1;
+  zoom: 1;
 
   &:after {
     content: "\200B";
@@ -309,8 +309,11 @@
 .react-minimal-datetime-range-calendar__table {
   display: table;
   border-collapse: collapse;
-  border-collapse: initial !important\9;
+  border-collapse: initial !important;
   margin: 0 auto;
+  min-width: -webkit-fill-available;
+  min-width: -moz-available;
+  min-width: fill-available;
 }
 
 @media all and (-ms-high-contrast: none) {
@@ -509,7 +512,6 @@
 .react-minimal-datetime-range-calendar__title-container {
   position: relative;
   display: block;
-  height: 18px;
   overflow: hidden;
   width: 100%;
   text-align: center;

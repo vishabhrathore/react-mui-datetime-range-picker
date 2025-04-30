@@ -6,7 +6,6 @@ import React, {
   useCallback,
   memo,
 } from "react";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
 import LOCALE from "./locale";
 import {
   WEEK_NUMBER,
@@ -18,6 +17,11 @@ import {
   formatDateString,
 } from "./const";
 import { cx, isValidDate } from "./utils";
+import Box from "@mui/material/Box";
+import Fade from "@mui/material/Fade";
+import Slide from "@mui/material/Slide";
+import Typography from "@mui/material/Typography";
+
 interface IObjectKeysAny {
   [key: string]: any;
 }
@@ -413,21 +417,21 @@ const Calender: React.FC<IndexProps> = memo(
               <div
                 className={`react-minimal-datetime-range__col react-minimal-datetime-range__col-9`}
               >
-                <TransitionGroup
+                <Box
                   className="react-minimal-datetime-range-calendar__selector-panel-year-set-container"
-                  childFactory={(child) =>
-                    React.cloneElement(child, { classNames })
-                  }
+                  sx={{ position: "relative" }}
                 >
-                  <CSSTransition
+                  <Slide
                     key={yearSelectorPanelList.join("-")}
-                    timeout={{ enter: 300, exit: 300 }}
-                    className={`react-minimal-datetime-range-dropdown-calendar__year`}
-                    classNames={classNames}
+                    in={true}
+                    direction="left"
+                    timeout={300}
                   >
-                    <div>{selectorPanelYearHtml}</div>
-                  </CSSTransition>
-                </TransitionGroup>
+                    <Box className="react-minimal-datetime-range-dropdown-calendar__year">
+                      {selectorPanelYearHtml}
+                    </Box>
+                  </Slide>
+                </Box>
               </div>
               <div
                 className={`react-minimal-datetime-range__col react-minimal-datetime-range__col-0-5`}
@@ -475,36 +479,36 @@ const Calender: React.FC<IndexProps> = memo(
           <div
             className={`react-minimal-datetime-range__col react-minimal-datetime-range__col-6`}
           >
-            <TransitionGroup
+            <Box
               className="react-minimal-datetime-range-calendar__title-container"
-              childFactory={(child) =>
-                React.cloneElement(child, { classNames })
-              }
+              sx={{ position: "relative" }}
             >
-              <CSSTransition
-                key={pickedYearMonth.string}
-                timeout={{ enter: 300, exit: 300 }}
-                className={`react-minimal-datetime-range-calendar__title`}
-                style={{ left: "0" }}
-                classNames={classNames}
-              >
-                <span
-                  className={`react-minimal-datetime-range-calendar__clicker`}
-                  onClick={handleShowSelectorPanel}
-                  onMouseDown={onMouseDown}
-                  onMouseUp={onMouseUp}
+              <Fade key={pickedYearMonth.string} in={true} timeout={300}>
+                <Box
+                  className="react-minimal-datetime-range-calendar__title"
+                  sx={{ position: "absolute", left: 0 }}
                 >
-                  <span
-                    className={`react-minimal-datetime-range-calendar__clicker`}
+                  <Typography
+                    component="span"
+                    className="react-minimal-datetime-range-calendar__clicker"
+                    onClick={handleShowSelectorPanel}
+                    onMouseDown={onMouseDown}
+                    onMouseUp={onMouseUp}
+                    sx={{ cursor: "pointer" }}
                   >
-                    {LOCALE_DATA.date_format(
-                      LOCALE_DATA.months[Number(pickedYearMonth.month) - 1],
-                      pickedYearMonth.year,
-                    )}
-                  </span>
-                </span>
-              </CSSTransition>
-            </TransitionGroup>
+                    <Typography
+                      component="span"
+                      className="react-minimal-datetime-range-calendar__clicker"
+                    >
+                      {LOCALE_DATA.date_format(
+                        LOCALE_DATA.months[Number(pickedYearMonth.month) - 1],
+                        pickedYearMonth.year,
+                      )}
+                    </Typography>
+                  </Typography>
+                </Box>
+              </Fade>
+            </Box>
           </div>
           <div
             className={`react-minimal-datetime-range__col react-minimal-datetime-range__col-3`}
@@ -535,19 +539,16 @@ const Calender: React.FC<IndexProps> = memo(
               {captionHtml}
             </div>
           </div>
-          <TransitionGroup
-            className={`react-minimal-datetime-range-calendar__body-container`}
-            style={transitionContainerStyle}
-            childFactory={(child) => React.cloneElement(child, { classNames })}
+          <Box
+            sx={{
+              ...transitionContainerStyle,
+            }}
+            className="react-minimal-datetime-range-calendar__body-container"
           >
-            <CSSTransition
-              key={pickedYearMonth.string}
-              timeout={{ enter: 300, exit: 300 }}
-              classNames={classNames}
-            >
-              {content}
-            </CSSTransition>
-          </TransitionGroup>
+            <Fade key={pickedYearMonth.string} in={true} timeout={300}>
+              <Box>{content}</Box>
+            </Fade>
+          </Box>
         </div>
         <div
           className={`react-minimal-datetime-range-calendar__button react-minimal-datetime-range-calendar__today`}
